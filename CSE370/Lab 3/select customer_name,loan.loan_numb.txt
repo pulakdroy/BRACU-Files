@@ -1,0 +1,16 @@
+select customer_name,loan.loan_number from ((customer inner join borrower on customer.customer_id = borrower.customer_id) inner join loan on loan.loan_number = borrower.loan_number) where loan.branch_name = 'Downtown';
+
+
+select c1.customer_name as Customer1, c2.customer_name as Customer2,c1.customer_city as City from (customer c1 inner join customer c2 on c1.customer_city = c2.customer_city) where c1.customer_id <> c2.customer_id;
+
+select branch_name as branch_name, sum(balance*0.04) as Total_Interest from account group by branch_name;
+
+select customer_city, account.account_number, max(balance) from customer inner join depositor on customer.customer_id = depositor.customer_id inner join account on account.account_number = depositor.account_number group by customer_city;
+
+select loan.loan_number, amount as loan_amount, customer_name from ((customer inner join borrower on borrower.customer_id = customer.customer_id) inner join loan on loan.loan_number = borrower.loan_number) order by amount desc, loan.loan_number asc limit 5;
+
+
+select distinct c1.customer_name from customer c1 inner join depositor d1 on c1.customer_id = d1.customer_id inner join account a1 on a1.account_number = d1.account_number inner join borrower b1 on c1.customer_id = b1.customer_id inner join loan l1 on b1.loan_number = l1.loan_number where a1.branch_name = 'Perryridge' and l1.branch_name = 'Perryridge';
+
+
+select c1.customer_name, sum(l1.amount) as total_loan from customer c1 inner join borrower b1 on c1.customer_id = b1.customer_id inner join loan l1 on b1.loan_number = l1.loan_number group by c1.customer_name having count(b1.loan_number) >= 2;

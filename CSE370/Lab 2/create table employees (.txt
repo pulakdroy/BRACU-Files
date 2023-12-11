@@ -1,0 +1,73 @@
+create table employees (
+	employee_id char(10),
+	first_name varchar(20),
+	last_name varchar(20),
+	email varchar(60),
+	phone_number char(14),
+	hire_date date,
+	job_id char(10),
+	salary int,
+	commission_pct decimal(5,3),
+	manager_id char(10),
+	department_id char(10) 
+);
+
+Insert into employess values
+("E001", "Ashraful", "Islam", "ashrafulislam@gmail.com", "21301501", "1999-09-20",
+"JOB001", 100000, 0.05, "MNG001", "DPT001"),
+("E002", "Pulak", "DebRoy", "pulakdebroy@gmail.com", "21301502", "2004-09-30",
+"JOB002", 60000, 0.05, "MNG002", "DPT002"),
+("E003", "Didar", "Islam", "didarislam@gmail.com", "21301503", "2003-09-30",
+"JOB003", 25000, 0.3, "MNG003", "DPT003"),
+("E004", "Zawad", "Redwan", "zawadredwan@gmail.com", "21301504", "2005-09-28",
+"JOB004", 65000, 0.08, "MNG004", "DPT005"),
+("E005", "Arundhati", "Sarkar", "arundhatisarkar@gmail.com", "21301505", "2003-09-30",
+"JOB005", 60000, 0.32, "MNG001", "DPT007"),
+("E006", "Mahfuz", "Mukto", "mahfuzmukto@gmail.com", "21301506", "2003-09-30",
+"JOB006", 45000, 0.25, "MNG002", "DPT002"),
+("E007", "Nirvik", "Saha", "nirviksaha@gmail.com", "21301507", "2007-05-10",
+"JOB002", 3000, 0.45, "MNG003", "DPT007"),
+("E008", "Utshob", "Bose", "utshobbose@gmail.com", "21301508", "2004-10-30",
+"JOB004", 20000, 0.025, "MNG004", "DPT005"),
+("E009", "Tasnim", "Alam", "tasnimalam@gmail.com", "21301509", "2004-09-30",
+"JOB007", 30000, 0.3, "MNG001", "DPT007"),
+("E010", "Towfiq", "Alam", "towfiqalam@gmail.com", "21301510", "1999-09-20",
+"JOB002", 2110, 0.5, "MNG002", "DPT002"),
+("E011", "Prangon", "Das", "prangondas@gmail.com", "21301511", "1980-06-01",
+"JOB002", 18000, 0.35, "MNG003", "DPT005");
+
+
+select first_name, last_name, email, phone_number, hire_date,
+department_id FROM employess WHERE hire_date = (SELECT
+MAX(hire_date) FROM employess);
+
+
+select e.first_name, e.last_name, e.employee_id, e.phone_number, e.salary,
+e.department_id from employess e inner join (select department_id,
+min(salary) as min_salary from employess group by department_id) m
+on e.department_id = m.department_id and e.salary = m.min_salary;
+
+
+select e.first_name, e.last_name, e.employee_id, e.commission_pct,
+e.department_id from employess e where e.department_id = 'DPT007'
+and e.commission_pct < all (select commission_pct from employess
+where department_id = 'DPT005')
+
+
+select department_id, count(*) as total_employees from employess where
+department_id not in ( select department_id from employess where
+salary > 30000) group by department_id;
+
+
+select e.department_id, e.job_id, e.commission_pct from employess e where
+e.commission_pct < any ( select commission_pct from employess where
+department_id = e.department_id and job_id != e.job_id );
+
+
+select distinct manager_id from employess where manager_id not in (
+select distinct manager_id from employess where salary < 3500 );
+
+select e.first_name, e.last_name, e.employee_id, e.email, e.salary, e.department_id,
+e.commission_pct from employess e where (e.manager_id, e.commission_pct) in (
+select manager_id, min(commission_pct) from employess group by
+manager_id );

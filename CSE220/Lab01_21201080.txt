@@ -1,0 +1,166 @@
+#Name: Md. Abrar Rahman Shafin
+#ID: 21201080
+
+#Task 1
+
+def shiftLeft(source, k):
+    for i in range(k):
+        for j in range(len(source)-1):
+            source[j] = source[j+1]
+        source[len(source)-1] = 0
+source=[10,20,30,40,50,60]   
+shiftLeft(source,3)
+print(source)
+
+#Task 2
+
+def rotateLeft(source, k):
+    for i in range(k):
+        temp = source[0]
+        for j in range(len(source)-1):
+            source[j] = source[j+1]
+        source[len(source)-1] = temp
+source=[10,20,30,40,50,60]
+rotateLeft(source,3)
+print(source) 
+
+#Task 3
+
+def shiftRight(source, k):
+    
+    for i in range(k):
+        start = len(source)-1
+        while start>0:
+            source[start] = source[start-1]
+            start-=1
+        source[0] = 0    
+source=[10,20,30,40,50,60]
+shiftRight(source,3)
+print(source) 
+
+#Task 4
+
+def rotateRight(source, k):
+    for i in range(k):
+        start = len(source) - 1
+        temp = source[len(source)-1]
+        while start>0:
+            source[start] = source[start-1]
+            start-=1
+        source[0] = temp
+source=[10,20,30,40,50,60,70]
+rotateRight(source,3)
+print(source)   
+
+#Task 5
+
+def remove(source, size, idx):
+    source[idx] = 0
+    for i in range(idx,size-1):
+        source[i] = source[i+1] 
+        source[i+1] = 0
+source=[10,20,30,40,50,0,0]
+remove(source,5,2)
+print(source)   
+
+#task 6
+
+def removeAll(source, size, element):
+    start = len(source) - 1
+    if source[start] == element:
+        source[start] = 0
+    while start>-1:    
+        if source[start] == element:
+            for j in range(start,len(source)-1):
+                source[j] = source[j+1]
+                source[j+1] = 0
+        start-=1        
+    return source    
+source=[10,2,30,2,50,2,2,0,0]
+removeAll(source,7,2)
+print(source)            
+
+#task 7
+
+def splitArray(source):
+    ls = 0
+    answer = False
+    for i in range(len(source)):
+        ls += source[i]
+        rs = 0
+        for j in range(i+1,len(source)):
+            rs+=source[j]
+        if rs == ls :
+            answer = True
+    print(answer)
+source = [1, 1, 1, 2, 1]
+splitArray(source)
+
+#Task 8
+
+def arraySeries(n):
+    lst = [0]*n*n 
+    num = 1
+    start = (n-1)
+    index = start
+    while num <= n:
+        for i in range(num,0,-1):
+            lst[index] = i
+            index += 1
+        num+=1    
+        start = (n - 1) * num
+        index = start
+    return lst
+print(arraySeries(4)) 
+
+#task 9
+
+def max_bunch_count(source):
+    count_lst = [0]*len(source)
+    count_lst_idx = 0
+    count = 1
+    for i in range(len(source)-1):
+        if source[i] == source[i+1]:
+            count+=1
+        else:
+            #count_lst+=[count]
+            count_lst[count_lst_idx] = count
+            count_lst_idx+=1
+            count = 1        
+    #count_lst+=[count]
+    count_lst[count_lst_idx] = count
+    count_lst_idx+=1
+    #print(count_lst)
+    max_count = count_lst[0]
+    for item in count_lst:
+        if item>max_count:
+            max_count = item     
+    return max_count 
+source =[1,1,2, 2, 1, 1,1,1]
+print(max_bunch_count(source)) 
+
+#task 10
+
+def repitition(source):
+    counted = []
+    elem_count = []
+    repitition = False
+    for i in source:
+        count = 0
+        if i not in counted:
+            counted+=[i]
+            for j in source:
+                if i==j:
+                    count+=1
+        if count>1:   
+            elem_count+=[count]        
+    for i in range(len(elem_count)):
+        for j in range(i+1,len(elem_count)):
+            if elem_count[i]==elem_count[j]:
+                repitition = True
+                break            
+    return repitition
+                
+source = [4,5,5,6,4,3,6,4]
+print(repitition(source)) 
+
